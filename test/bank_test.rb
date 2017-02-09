@@ -36,9 +36,19 @@ class BankTest < Minitest::Test
 		
 		person1 = Person.new("Minerva", 1000)
 		chase.open_account(person1)
-		
-		chase.transfer(person1, wells_fargo, 250)
 
-		assert_equal true, person1.has_account
+		assert_equal true, chase.has_account?(person1)
+
+
+		assert_equal "Insufficient funds.", chase.transfer(person1, wells_fargo, 100000)
+		assert_equal false, wells_fargo.has_account?(person1)
+
+		wells_fargo.open_account(person1)
+
+		assert_equal true, wells_fargo.has_account?(person1)
+	end
+
+	def test_can_get_total_amount_of_cash_in_bank
+
 	end
 end
